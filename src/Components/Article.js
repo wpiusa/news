@@ -8,19 +8,20 @@ let width = Dimensions.get('window').width;
 export default class Article extends React.Component {
   render(){
     const item = this.props.article;
-    const items = this.props.article.items;
-
-    const { title } = item;
+    
     return(
-      <TouchableOpacity style={styles.cardContentHorizontal}>
+      <TouchableOpacity 
+        style={this.props.horizontal ? styles.cardContentHorizontal : styles.cardContent} 
+        onPress={this.props.onPress}
+      >
           <View style={styles.cardImageContent}>
               <Image
-                  source={{ uri: items[0].image}}
+                  source={{ uri: item.image}}
                   style={styles.cardImage}
               />
           </View>
-          <Text style={styles.category}>{items[0].category.toUpperCase()}</Text>
-          <Text numberOfLines={2} style={styles.cardTitle}>{items[0].title}</Text>
+          <Text style={styles.category}>{item.category.toUpperCase()}</Text>
+          <Text numberOfLines={2} style={styles.cardTitle}>{item.title}</Text>
           <View style={styles.cardRow}>
               <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
                   <Ionicons 
@@ -29,7 +30,7 @@ export default class Article extends React.Component {
                       color={Colors.cardIcon} 
                       style={{ marginRight: 5 }} 
                    />
-                  <Text style={styles.cardText}>{items[0].views}</Text>
+                  <Text style={styles.cardText}>{item.views}</Text>
               </View>
               <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
                   <Ionicons 
@@ -38,7 +39,7 @@ export default class Article extends React.Component {
                       color={Colors.cardIcon} 
                       style={{ marginRight: 5 }} 
                   />
-                  <Text style={styles.cardText}>{items[0].published_at}</Text>
+                  <Text style={styles.cardText}>{item.published_at}</Text>
               </View>
           </View>
       </TouchableOpacity>
@@ -47,6 +48,19 @@ export default class Article extends React.Component {
 }  
 
 const styles = StyleSheet.create({
+  cardContent: {
+    width: width * 0.9,
+    marginLeft: width * 0.05,
+    marginBottom: 20,
+    borderRadius: 15,
+    paddingBottom: 10,
+    backgroundColor: Colors.cardContentBackground,
+    elevation: 3,
+    shadowColor: Colors.cardShadow,
+    shadowOffset: { width:1, height: 1},
+    shadowOpacity: 0.8,
+    shadowRadius:3
+  },
   cardContentHorizontal: {
     width: width * 0.8,
     marginLeft: width * 0.05,
@@ -69,6 +83,14 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 15,
     overflow: 'hidden'
   },
+  cardTitle:{
+    fontSize: 18,
+    marginVertical: 5,
+    marginHorizontal: 15,
+    height: 50,
+    fontWeight: 'bold',
+    color: Colors.cardTitle
+  },
   category: {
     fontSize: 14,
     color: Colors.cardText,
@@ -82,6 +104,10 @@ const styles = StyleSheet.create({
     height: 50,
     fontWeight: 'bold',
     color: Colors.cardTitle
+  },
+  cardText: {
+    fontSize: 14,
+    color: Colors.cardText
   },
   cardRow: {
     flexDirection: 'row',

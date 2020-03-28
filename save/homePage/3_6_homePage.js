@@ -22,19 +22,26 @@ export default class HomePage extends React.Component {
   }
 
   componentDidMount(){
+    console.log('data', data);
     this.setState({ items: data.data.items });
   }
 
   openArticle = (item) => {
-    this.props.navigation.navigate('Details', { article: item, title: item.title})
+    console.log('open article');
+    this.props.navigation.navigate('Details', { article: item, title: item.title })
   }
 
   renderItem = (item, index) => {
+      //console.log('item', item);
+      //console.log('index', index);
+      //console.log('item type', item.type);
       if (item.items.length === 0) return null;
       let result = null;
+      console.log('item type switch', item.type);
+      console.log('item.items', item.items);
       switch(item.type) {
         case 'list':
-          result = item.items.map(i => <Article key={i.id + 100} article={i} onPress={() => this.openArticle(i)} />);
+          result = item.items.map(i => <Article key={i.id + 100} article={i} onPress={() => this.openArticle(i)}/>);
           break;
         case 'carousel':
 

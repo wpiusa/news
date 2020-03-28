@@ -22,35 +22,19 @@ export default class HomePage extends React.Component {
   }
 
   componentDidMount(){
-    this.setState({ items: data.data.items });
+    this.setState({ items: data.items });
   }
 
-  openArticle = (item) => {
-    this.props.navigation.navigate('Details', { article: item, title: item.title})
-  }
-
-  renderItem = (item, index) => {
-      if (item.items.length === 0) return null;
-      let result = null;
-      switch(item.type) {
-        case 'list':
-          result = item.items.map(i => <Article key={i.id + 100} article={i} onPress={() => this.openArticle(i)} />);
-          break;
-        case 'carousel':
-
-        case 'horizontal':
-          result = <FlatList
-              data={item.items}
-              renderItem={({ item }) => <Article article={item} />}
-              keyExtractor={item => item.id}
-          />
-        break;
-      }
-      
+  renderItem = (items) => {
+      const result = <FlatList
+          data={items}
+          renderItem={({ item }) => <Article article={item} />}
+          keyExtractor={item => item.id}
+      />
       return (
-        <View key={index}>
+        <View key={items.id}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={styles.title}>{item.title}</Text>
+            <Text style={styles.title}>{items.title}</Text>
             {
               <TouchableOpacity
                 style={{ marginRight: '5%', marginVertical: 7 }}
@@ -70,7 +54,7 @@ export default class HomePage extends React.Component {
     return(
       <SafeAreaView style={styles.container}>
           <ScrollView>
-              {items.map(this.renderItem)}
+              {this.renderItem(items)}
           </ScrollView>
       </SafeAreaView>
     )
